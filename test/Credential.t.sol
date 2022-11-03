@@ -14,20 +14,20 @@ contract CredentialTest is Test {
 
     function testMint() public {
         assertEq(credential.balanceOf(address(1)), 0, "should have no token");
-        credential.safeMint(address(1), "01324", "Certidao Negativa X", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
+        credential.safeMint(address(1), "01324", "Certidao Negativa X", "", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
 
         vm.prank(address(1));
         vm.expectRevert("Ownable: caller is not the owner");
-        credential.safeMint(address(1), "01324", "Certidao Negativa X", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
+        credential.safeMint(address(1), "01324", "Certidao Negativa X", "", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
 
         vm.prank(address(this));
-        credential.safeMint(address(1), "01324", "Certidao Negativa X", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
+        credential.safeMint(address(1), "01324", "Certidao Negativa X", "", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
         assertEq(credential.balanceOf(address(1)), 2, "should have minted only 2 NFTs");
     }
 
     function testTransfers() public {
 
-        credential.safeMint(address(1), "01324", "Certidao Negativa X", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
+        credential.safeMint(address(1), "01324", "Certidao Negativa X", "", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
 
         vm.expectRevert(bytes("ERC721: caller is not token owner nor approved"));
         credential.transferFrom(address(this), address(1), 0);
@@ -39,8 +39,8 @@ contract CredentialTest is Test {
 
     function testBurn() public {
 
-        credential.safeMint(address(1), "01324", "Certidao Negativa X", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
-        credential.safeMint(address(1), "01324", "Certidao Negativa X", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
+        credential.safeMint(address(1), "01324", "Certidao Negativa X", "", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
+        credential.safeMint(address(1), "01324", "Certidao Negativa X", "", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
         assertEq(credential.balanceOf(address(1)), 2, "should mint two tokens");
 
 
@@ -60,12 +60,12 @@ contract CredentialTest is Test {
 
     function testGetAllTokensByOwner() public {
         assertEq(credential.getAllTokensByOwner(address(1)).length, 0, "should not have nay token");
-        credential.safeMint(address(1), "01324", "Certidao Negativa X", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
-        credential.safeMint(address(1), "01324", "Certidao Negativa X", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
+        credential.safeMint(address(1), "01324", "Certidao Negativa X", "", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
+        credential.safeMint(address(1), "01324", "Certidao Negativa X", "", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
         assertEq(credential.getAllTokensByOwner(address(1)).length, 2, "should have 2 tokens");
         assertEq(credential.getAllTokensByOwner(address(1))[0], 0, "should own first minted token with id 0");
 
-        credential.safeMint(address(2), "01324", "Certidao Negativa X", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
+        credential.safeMint(address(2), "01324", "Certidao Negativa X", "", "QmNrgEMcUygbKzZeZgipFoskd27VE9KnWbyUD73bKZJ3bGi", "awoeifjwoefi");
         assertEq(credential.getAllTokensByOwner(address(2)).length, 1);
 
         credential.burn(0);

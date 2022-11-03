@@ -13,6 +13,7 @@ contract Credential is ERC721, Ownable {
     struct Attr {
         string subjectId;
         string credentialType;
+        string data;
         string dataHash;
         string dataKey;
     }
@@ -29,13 +30,14 @@ contract Credential is ERC721, Ownable {
         address to,
         string memory _subjectId,
         string memory _credentialType,
+        string memory _data,
         string memory _dataHash,
         string memory _dataKey
     ) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
-        attributes[tokenId] = Attr(_subjectId, _credentialType, _dataHash, _dataKey);
+        attributes[tokenId] = Attr(_subjectId, _credentialType, _data, _dataHash, _dataKey);
         tokensByAddress[to].push(tokenId);
     }
 
