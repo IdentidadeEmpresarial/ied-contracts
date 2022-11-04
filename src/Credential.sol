@@ -31,7 +31,6 @@ contract Credential is ERC721, Ownable {
     event Issued(address indexed issuer, address indexed _to, bytes32 indexed _dataHash, uint _tokenId);
 
     modifier onlyOwnerOrIssuer {
-        console.log("checking owner");
         if(msg.sender != owner()) {
             bool allowedIssuer = false;
             for (uint i = 0; i < issuers.length; i++){
@@ -46,10 +45,8 @@ contract Credential is ERC721, Ownable {
     }
 
     modifier checkHolderSignature(address holder, bytes32 dataHash, bytes memory holderSignature) {
-        console.log("checking signature");
         (address recovered, ECDSA.RecoverError error) = ECDSA.tryRecover(dataHash, holderSignature);
         require(error == ECDSA.RecoverError.NoError && recovered == holder, "invalid holder signature");
-        console.log("checked signature");
         _;
     }
 
@@ -64,13 +61,11 @@ contract Credential is ERC721, Ownable {
         bytes memory _holderSignature,
         string memory _dataKey
     ) public onlyOwnerOrIssuer checkHolderSignature(to, _dataHash, _holderSignature) {
-        console.log("stared minting");
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
         attributes[tokenId] = Attr(msg.sender, _subjectId, _credentialType, _data, _dataHash, _dataKey);
         tokensByAddress[to].push(tokenId);
-        console.log("minted");
         emit Issued(msg.sender, to, _dataHash, tokenId);
     }
 
