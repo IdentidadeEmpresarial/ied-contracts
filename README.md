@@ -22,12 +22,13 @@ forge test
 ```
 
 ## Configure and run local testnet
-Create the `.env` file with the RPC endpoint and issuer private key.
+Create the `.env` file with the RPC endpoint, the CDID private key and an issuer address.
 
 ```bash
 RPC_URL_ANVIL=http://localhost:8545
 
-ISSUER_PRIVATE_KEY=XXX
+CDID_PRIVATE_KEY=XXX
+SAMPLE_ISSUER_ADDRESS=XXX
 ```
 
 Start anvil:

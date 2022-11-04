@@ -8,11 +8,12 @@ contract CredentialScript is Script {
     function setUp() public {}
 
     function run() public {
-        uint256 deployerPrivateKey = uint256(vm.envBytes32("ISSUER_PRIVATE_KEY"));
+        uint256 deployerPrivateKey = uint256(vm.envBytes32("CDID_PRIVATE_KEY"));
 
         vm.startBroadcast(deployerPrivateKey);
 
-        new Credential();
+        Credential credential = new Credential();
+        credential.addIssuer(vm.envAddress("SAMPLE_ISSUER_ADDRESS"));
 
         vm.stopBroadcast();
     }
