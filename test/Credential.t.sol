@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.17;
 
 import "forge-std/Test.sol";
-import "forge-std/console.sol";
+import "forge-std/console2.sol";
 import "../src/Credential.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 contract CredentialTest is Test {
     Credential public credential;
@@ -11,7 +13,7 @@ contract CredentialTest is Test {
     string subjectId = "0132456";
     string credentialType = "Certidao Negativa X";
     bytes data = "credential data";
-    bytes32 dataHash = keccak256(data);
+    bytes32 dataHash;
     string key = "";
     address address1 = vm.addr(0x1);
     address address2 = vm.addr(0x2);
@@ -26,6 +28,7 @@ contract CredentialTest is Test {
 
     function setUp() public {
         credential = new Credential();
+        dataHash = ECDSA.toEthSignedMessageHash( data);
         (uint8 v1, bytes32 r1, bytes32 s1) = vm.sign(0x1, dataHash);
         (uint8 v2, bytes32 r2, bytes32 s2) = vm.sign(0x2, dataHash);
         (uint8 v3, bytes32 r3, bytes32 s3) = vm.sign(0x3, dataHash);
